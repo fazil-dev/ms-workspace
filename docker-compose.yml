@@ -1,0 +1,27 @@
+services:
+  mongo-7.0-local:
+    container_name: mongo-7.0-local
+    image: mongo:7.0
+    ports:
+      - "29017:27017"
+    volumes:
+      - /Users/fazil/Documents/Workspace/personal-workspace/mongo-data/data_latest:/data/db
+    networks:
+      - fazil_local_docker_network
+  mysql-8.3-local:
+    container_name: mysql-8.3-local
+    image: mysql:8.3
+    ports:
+      - "3906:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: Tech@123
+      MYSQL_USER: app-user
+      MYSQL_PASSWORD: app-pwd
+    volumes:
+      - /Users/fazil/Documents/Workspace/personal-workspace/db-data/mysql_data:/var/lib/mysql
+    networks:
+      - fazil_local_docker_network
+  
+networks:
+  fazil_local_docker_network:
+    driver: bridge

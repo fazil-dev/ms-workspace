@@ -29,9 +29,9 @@ public class ProductService {
 
         product = productRepository.save(product);
 
-        ProductResponse productResponse = new ProductResponse(product.getId(), product.getName(),
-                product.getDescription(), product.getPrice());
-        log.info("ProductService: product {} create with id {}.", product.getName(), product.getId());
+        ProductResponse productResponse = new ProductResponse(product.id(), product.name(),
+                product.description(), product.price());
+        log.info("ProductService: product {} create with id {}.", product.name(), product.id());
 
         return productResponse;
     }
@@ -39,8 +39,8 @@ public class ProductService {
     public List<ProductResponse> getAllProducts() {
         List<Product> products = productRepository.findAll();
 
-        return products.stream().map(product -> new ProductResponse(product.getId(), product.getName(),
-                product.getDescription(), product.getPrice()))
+        return products.stream().map(product -> new ProductResponse(product.id(), product.name(),
+                product.description(), product.price()))
                 .collect(Collectors.toList());
     }
 }

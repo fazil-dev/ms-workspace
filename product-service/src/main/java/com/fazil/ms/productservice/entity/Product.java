@@ -10,15 +10,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.math.BigDecimal;
 
 @Document("product")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-public class Product {
+public record Product (
     @Id
-    String id;
-    String name;
-    String description;
-    BigDecimal price;
+    String id,
+    String name,
+    String description,
+    BigDecimal price
+
+) {
 
 }

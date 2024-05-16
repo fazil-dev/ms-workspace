@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 import java.math.BigDecimal;
 
@@ -35,7 +36,7 @@ class ProductServiceApplicationTests {
 
 	@Container
 	@ServiceConnection
-	static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:7.0");
+	static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo");
 
 	@Autowired
 	MockMvc mockMvc;
@@ -45,11 +46,13 @@ class ProductServiceApplicationTests {
 
 	static ObjectMapper objectMapper = new ObjectMapper();
 
-//	Deprecated this because added @ServiceConnection annotation in mongodb container
-//	@DynamicPropertySource
-//	static void setProperties(DynamicPropertyRegistry dynamicPropertyRegistry) {
-//		dynamicPropertyRegistry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
-//	}
+	//	Deprecated this because added @ServiceConnection annotation in mongodb container
+	/*
+	@DynamicPropertySource
+	static void setProperties(DynamicPropertyRegistry dynamicPropertyRegistry) {
+		dynamicPropertyRegistry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+	}
+	*/
 
 	@BeforeAll
 	static void setup() {
@@ -68,7 +71,7 @@ class ProductServiceApplicationTests {
 	@Test
 	public void shouldCreateProduct() throws Exception {
 
-		MvcResult responseMvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/products")
+		MvcResult responseMvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/product")
 									.contentType(MediaType.APPLICATION_JSON)
 									.content(objectMapper.writeValueAsString(getProductRequest())))
 				.andExpect(status().isCreated())
@@ -81,7 +84,7 @@ class ProductServiceApplicationTests {
 
 	@Test
 	public void shouldFindAllHaveRecords() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/products")
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/product")
 				.contentType(MediaType.APPLICATION_JSON)
 		).andExpect(status().isOk())
 				.andReturn().getResponse();
